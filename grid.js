@@ -1,12 +1,15 @@
-// 8x8 grid
+//creates an 8x8 grid for game board
 function createGrid() {
-    // TODO: Render 8x8 grid to be used for gameboard
-    const container = document.getElementById("container");
-
-    let text = document.createElement("h1");
-    text.innerHTML = "Add grid here";
-
-    container.appendChild(text);
+    var div = document.querySelectorAll('.grid');
+	for (var grid = 0; grid < div.length; grid++) {
+		for (var row = 0; row < 8; row++) {
+			for (var col = 0; col < 8; col++) {
+				var el = document.createElement('div');
+				el.setAttribute('class', 'grid-cell');
+				div[grid].appendChild(el);
+			}
+		}
+	}
 }
 
 createGrid();
