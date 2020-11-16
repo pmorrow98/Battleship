@@ -1,0 +1,123 @@
+body {
+    background-color: rgb(255, 251, 240);
+}
+
+h1 {
+    text-align: center;
+}
+
+.grid-container {
+	width: 450px;
+    display: inline-block;
+}
+
+.human {
+    position: absolute;
+    top: 20%;
+    left: 55%;
+}
+
+.computer {
+    position: absolute;
+    top: 20%;
+    left: 25%;
+}
+#control-area, #computer-status{
+    position: absolute;
+    top: 70%;
+    left: 55%;
+}
+#my-status{
+    position: absolute;
+    top: 70%;
+    left: 25%;
+}
+.status-block > *{
+    display: inline-block;
+}
+.status-block > h3{
+    margin-right: 10px;
+}
+
+.grid {
+	vertical-align: top;
+	padding: 5px;
+	height: 420px;
+	width: 420px;
+	background-color: #195888;
+	border-radius: 5px;
+}
+
+.grid-cell {
+    vertical-align: top;
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    background-color: #9ed0f7;
+    margin: 1px;
+    border-radius: 2px;
+}
+.temp-ship-cell {
+    vertical-align: top;
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    background-color: grey;
+    margin: 1px;
+    border-radius: 2px;
+}
+.perm-ship-cell {
+    vertical-align: top;
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    background-color: black;
+    margin: 1px;
+    border-radius: 2px;
+}
+.target-cell{
+    vertical-align: top;
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    background-color: yellow;
+    margin: 1px;
+    border-radius: 2px;
+}
+.hit-cell{
+    vertical-align: top;
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    background-color: red;
+    margin: 1px;
+    border-radius: 2px;
+}
+.miss-cell{
+    vertical-align: top;
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    background-color: whitesmoke;
+    margin: 1px;
+    border-radius: 2px;
+}
+.ship-indicator-tile{
+    vertical-align: top;
+    height: 30px;
+    width: 30px;
+    display: inline-block;
+    background-color: grey;
+    margin: 1px;
+    border-radius: 2px;
+}
+.hit-ship-indicator-tile{
+    vertical-align: top;
+    height: 30px;
+    width: 30px;
+    display: inline-block;
+    background-color: red;
+    margin: 1px;
+    border-radius: 2px;
+}
+
