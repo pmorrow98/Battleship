@@ -10,21 +10,25 @@
 
     <body>
         <h1 >Battleship</h1>
-        <div>
-            <div class="grid-container human">
-                <h2>Your Board</h2>
-                <div id = "myboard" class="grid"></div>
+        <div id = "gamearea">
+            <div id = "computer" class = "side">
+                <div class="grid-container">
+                    <h2>Computer Board</h2>
+                    <div id = "computerboard" class="grid"></div>
+                </div>
+                <div id = "my-status" class = "status-area"></div>
             </div>
-            <div class="grid-container computer">
-                <h2>Computer Board</h2>
-                <div id = "computerboard" class="grid"></div>
+            <div id = "human" class = "side">
+                <div class="grid-container">
+                    <h2>Your Board</h2>
+                    <div id = "myboard" class="grid"></div>
+                </div>
+                <div id = "control-area"></div>
+                <div id = "computer-status" class = "status-area"></div>
             </div>
         </div>
-        <div id = "control-area"></div>
-        <div id = "computer-status"><div id = "computer-carrier-status" class = "status-block"></div><div id = "computer-battleship-status" class = "status-block"></div><div id = "computer-destroyer-status" class = "status-block"></div><div id = "computer-submarine-status" class = "status-block"></div><div id = "computer-patrolboat-status" class = "status-block"></div></div>
-        <div id = "my-status"><div id = "my-carrier-status" class = "status-block"></div><div id = "my-battleship-status" class = "status-block"></div><div id = "my-destroyer-status" class = "status-block"></div><div id = "my-submarine-status" class = "status-block"></div><div id = "my-patrolboat-status" class = "status-block"></div></div>
+        <div id = "resultarea"></div>
         <script type= "module" src = "board.js"></script>
-        <script type = "module" src = "ship.js"></script>
         <script type= "module" src = "computer.js"></script>
         <script type = "module" src="renderBoards.js"></script>
     </body>

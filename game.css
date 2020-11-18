@@ -1,42 +1,52 @@
 body {
+    font-family: 'Trebuchet MS';
     background-color: rgb(255, 251, 240);
 }
 
 h1 {
     text-align: center;
 }
-
-.grid-container {
-	width: 450px;
+#gamearea{
+    margin: auto;
+    text-align: center;
+}
+.side{
     display: inline-block;
+    vertical-align: top;
+}
+.side > * {
+    display: block;
+}
+.grid-container {
+    width: 450px;
+    text-align: center;
+    margin: auto;
 }
 
-.human {
-    position: absolute;
-    top: 20%;
-    left: 55%;
+#control-area{
+    text-align: left;
 }
 
-.computer {
-    position: absolute;
-    top: 20%;
-    left: 25%;
+.status-area{
+    text-align: left;
 }
-#control-area, #computer-status{
-    position: absolute;
-    top: 70%;
-    left: 55%;
-}
-#my-status{
-    position: absolute;
-    top: 70%;
-    left: 25%;
-}
+
 .status-block > *{
     display: inline-block;
 }
 .status-block > h3{
+    width: 100px;
     margin-right: 10px;
+}
+.sink-notification{
+    color: darkred;
+    font-weight: bold;
+    font-family: fantasy;
+}
+
+#resultarea > *{
+    text-align: center;
+    margin: 20px auto;
 }
 
 .grid {
@@ -45,7 +55,8 @@ h1 {
 	height: 420px;
 	width: 420px;
 	background-color: #195888;
-	border-radius: 5px;
+    border-radius: 5px;
+    margin: auto;
 }
 
 .grid-cell {
@@ -56,6 +67,18 @@ h1 {
     background-color: #9ed0f7;
     margin: 1px;
     border-radius: 2px;
+}
+.test-cell {
+    vertical-align: top;
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    background-color: #9ed0f7;
+    margin: 1px;
+    border-radius: 2px;
+    font-size: 40px;
+    font-weight: bold;
+    color: darkred;
 }
 .temp-ship-cell {
     vertical-align: top;

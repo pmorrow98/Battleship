@@ -6,6 +6,7 @@ const shipnames = ["Carrier", "Battleship", "Destroyer", "Submarine", "Patrol Bo
 let current_ship = 0;
 let myBoard, computerBoard;
 let computer;
+let gameinprogress;
 
 const renderInitialBoards = function(){
     let my_board_div = document.getElementById("myboard");
@@ -145,14 +146,17 @@ const submitBoard = function(){
     for(let i = 0; i < final_tiles.length; i++){
         final_board.push(final_tiles[i].data_shiptype);
     }
-    myBoard = new Board(final_board);
+    myBoard = new Board(final_board, "User");
     myBoard.addSinkListener(updateComputerSink);
-    computerBoard = new Board(createRandomBoard());
+    myBoard.addLoseListener(updateResult);
+    computerBoard = new Board(createRandomBoard(), "Computer");
     computerBoard.addSinkListener(updateUserSink);
+    computerBoard.addLoseListener(updateResult);
     computer = new Computer();
     renderMyFinalBoard(final_board);
     document.getElementById("control-area").innerHTML = "";
     renderStatusArea();
+    gameinprogress = true;
     //Change or clear out control area here
 }
 
@@ -161,7 +165,7 @@ const handleShootHover = function(event){
     if(current_target.length != 0){
         current_target[0].className = "grid-cell";
     }
-    if(current_ship == 5){
+    if(gameinprogress){
         if(event.target.className == "grid-cell"){
             event.target.className = "target-cell";
         }
@@ -169,20 +173,24 @@ const handleShootHover = function(event){
 }
 
 const handleShootClick = function(event){
-    if(current_ship == 5){
+    if(gameinprogress){
         if(event.target.className == "target-cell"){
             let result = computerBoard.shoot(event.target.data_x, event.target.data_y);
             if(result != 0){
                 event.target.className = "hit-cell";
-                let status_div_children = document.getElementById("my-status").childNodes[result - 1].childNodes[1].childNodes;
-                let unhit_cell = false;
-                let current_child = 0;
-                while(!unhit_cell){
-                    if(status_div_children[current_child].className == "ship-indicator-tile"){
-                        status_div_children[current_child].className = "hit-ship-indicator-tile";
-                        unhit_cell = true;
+                if(gameinprogress){
+                    let status_div_children = document.getElementById("my-status").childNodes[result - 1].childNodes[1].childNodes;
+                    if(status_div_children.length != 1){
+                        let unhit_cell = false;
+                        let current_child = 0;
+                        while(!unhit_cell){
+                            if(status_div_children[current_child].className == "ship-indicator-tile"){
+                                status_div_children[current_child].className = "hit-ship-indicator-tile";
+                                unhit_cell = true;
+                            }
+                            current_child++;
+                        }
                     }
-                    current_child++;
                 }
             }
             else{
@@ -193,16 +201,20 @@ const handleShootClick = function(event){
             if(computer_result != 0){
                 //render computers shot
                 document.getElementById("my" + computer_shot[0] + computer_shot[1]).className = "hit-cell";
-                computer.notifyHit(computer_result);
-                let status_div_children = document.getElementById("computer-status").childNodes[computer_result - 1].childNodes[1].childNodes;
-                let unhit_cell = false;
-                let current_child = 0;
-                while(!unhit_cell){
-                    if(status_div_children[current_child].className == "ship-indicator-tile"){
-                        status_div_children[current_child].className = "hit-ship-indicator-tile";
-                        unhit_cell = true;
+                if(gameinprogress){
+                    computer.notifyHit(computer_result);
+                    let status_div_children = document.getElementById("computer-status").childNodes[computer_result - 1].childNodes[1].childNodes;
+                    if(status_div_children.length != 1){
+                        let unhit_cell = false;
+                        let current_child = 0;
+                        while(!unhit_cell){
+                            if(status_div_children[current_child].className == "ship-indicator-tile"){
+                                status_div_children[current_child].className = "hit-ship-indicator-tile";
+                                unhit_cell = true;
+                            }
+                            current_child++;
+                        }
                     }
-                    current_child++;
                 }
             }
             if(computer_result == 0){
@@ -237,7 +249,7 @@ const renderMyFinalBoard = function(board){
 
 const renderStatusArea = function(){
     //label section too
-    let my_status_divs = document.getElementById("my-status").childNodes;
+    let my_status_div = document.getElementById("my-status");
     for(let ship = 0; ship < 5; ship++){
         let label = document.createElement('h3');
         label.innerText = shipnames[ship];
@@ -247,11 +259,14 @@ const renderStatusArea = function(){
             ship_tile.className = "ship-indicator-tile";
             status.appendChild(ship_tile);
         }
-        my_status_divs[ship].appendChild(label);
-        my_status_divs[ship].appendChild(status);
+        let ship_div = document.createElement("div");
+        ship_div.className = "status-block";
+        ship_div.appendChild(label);
+        ship_div.appendChild(status);
+        my_status_div.appendChild(ship_div);
     }
 
-    let computer_status_divs = document.getElementById("computer-status").childNodes;
+    let computer_status_div = document.getElementById("computer-status");
 
     for(let ship = 0; ship < 5; ship++){
         let label = document.createElement('h3');
@@ -262,8 +277,11 @@ const renderStatusArea = function(){
             ship_tile.className = "ship-indicator-tile";
             status.appendChild(ship_tile);
         }
-        computer_status_divs[ship].appendChild(label);
-        computer_status_divs[ship].appendChild(status);
+        let ship_div = document.createElement('div');
+        ship_div.className = "status-block";
+        ship_div.appendChild(label);
+        ship_div.appendChild(status);
+        computer_status_div.appendChild(ship_div);
     }
 
 }
@@ -323,16 +341,67 @@ const createRandomBoard = function(){
 }
 
 const updateUserSink = function(shipID){
-    console.log("User just sunk ship with ID: " + shipID);
+    let ship_status_div = document.getElementById("my-status").childNodes[shipID - 1].childNodes[1];
+    let sunk_notification = document.createElement('h3');
+    sunk_notification.innerText = "SUNK";
+    sunk_notification.className = "sink-notification";
+    ship_status_div.innerHTML = "";
+    ship_status_div.appendChild(sunk_notification);
 }
 
 const updateComputerSink = function(shipID){
-    console.log("Computer just sunk ship with ID: " + shipID);
+    let ship_status_div = document.getElementById("computer-status").childNodes[shipID - 1].childNodes[1];
+    let sunk_notification = document.createElement('h3');
+    sunk_notification.innerText = "SUNK";
+    sunk_notification.className = "sink-notification";
+    ship_status_div.innerHTML = "";
+    ship_status_div.appendChild(sunk_notification);
     computer.notifySink(shipID);
+}
+
+const updateResult = function(winner){
+    document.getElementById("my-status").innerHTML = "";
+    document.getElementById("computer-status").innerHTML = "";
+    let result_div = document.getElementById("resultarea");
+    let result_message = document.createElement("h2");
+    if(winner == "User"){
+        result_message.innerText = "Computer Wins, Game Over. Better Luck Next Time";
+    }
+    if(winner == "Computer"){
+        result_message.innerText = "You Win, Want To Go Again?";
+    }
+    let button_div = document.createElement("div");
+    let new_game_button = document.createElement("button");
+    new_game_button.innerText = "Start A New Game";
+    new_game_button.addEventListener("click", handleGameReset);
+    let leaderboard_button = document.createElement("button");
+    leaderboard_button.innerText = "Go To Leaderboard";
+    leaderboard_button.addEventListener("click", handleGoToLeaderboard);
+    button_div.appendChild(new_game_button);
+    button_div.appendChild(leaderboard_button);
+
+    result_div.appendChild(result_message);
+    result_div.appendChild(button_div);
+    gameinprogress = false;
+}
+
+const handleGameReset = function(){
+    document.getElementById("resultarea").innerHTML = "";
+    document.getElementById("myboard").innerHTML = "";
+    document.getElementById("computerboard").innerHTML = "";
+    current_ship = 0;
+    gameinprogress = false;
+    renderInitialBoards();
+    renderButtons();
+}
+
+const handleGoToLeaderboard = function(){
+    console.log("Attempting to navigate to Leaderboard");
 }
 
 
 window.onload = () => {
     renderInitialBoards();
     renderButtons();
+    gameinprogress = false;
 };

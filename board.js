@@ -1,31 +1,28 @@
-import Ship from "./ship.js";
-
 export default class Board{
-    constructor(startboard){
+    constructor(startboard, player){
         this.board = startboard;
+        this.player = player;
         this.arrlength = startboard.length;
         this.dimension = Math.sqrt(this.arrlength);
         this.state = Board.State.INITIALIZED;
-        this.ships = [];
+        this.ships = [5,4,3,3,2];
         this.sinkListeners = [];
         this.loseListeners = [];
-        for (let i = 1; i <= 5; i++){
-            this.ships[i] = new Ship(i);
-        }
         this.ships_left = 5;
     }
     addSinkListener(callback){
-        for (let i = 1; i <= 5; i++){
-            this.ships[i].addSinkListener(callback);
-        }
-        //this.sinkListeners.push(callback);
+        this.sinkListeners.push(callback);
     }
     addLoseListener(callback){
         this.loseListeners.push(callback);
     }
 
+    updateSink(shipID){
+        this.sinkListeners.forEach((callback) => callback(shipID));
+    }
+
     updateLose(){
-        this.loseListeners.forEach((callback) => callback());
+        this.loseListeners.forEach((callback) => callback(this.player));
     }
     shoot(x, y){
         if(this.state == Board.State.INITIALIZED){
@@ -41,7 +38,14 @@ export default class Board{
             else{
                 result = selected_tile;
                 this.board[(y * this.dimension) + x] = -1;
-                this.ships[selected_tile].hit();
+                this.ships[selected_tile - 1] -= 1;
+                if(this.ships[selected_tile - 1] == 0){
+                    this.updateSink(selected_tile);
+                    this.ships_left -= 1;
+                    if(this.ships_left == 0){
+                        this.updateLose();
+                    }
+                }
             }
         }
         return result;
