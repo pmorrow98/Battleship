@@ -7,6 +7,8 @@ let current_ship = 0;
 let myBoard, computerBoard;
 let computer;
 let gameinprogress;
+let username = "WinterSoldier";
+let current_gamesPlayed, current_losses, current_wins, current_shipsSunk;
 
 const renderInitialBoards = function(){
     let my_board_div = document.getElementById("myboard");
@@ -340,13 +342,15 @@ const createRandomBoard = function(){
     return resultboard;
 }
 
-const updateUserSink = function(shipID){
+const updateUserSink = async function(shipID){
     let ship_status_div = document.getElementById("my-status").childNodes[shipID - 1].childNodes[1];
     let sunk_notification = document.createElement('h3');
     sunk_notification.innerText = "SUNK";
     sunk_notification.className = "sink-notification";
     ship_status_div.innerHTML = "";
     ship_status_div.appendChild(sunk_notification);
+    current_shipsSunk += 1;
+    updateUserInfo();
 }
 
 const updateComputerSink = function(shipID){
@@ -359,17 +363,20 @@ const updateComputerSink = function(shipID){
     computer.notifySink(shipID);
 }
 
-const updateResult = function(winner){
+const updateResult = function(loser){
     document.getElementById("my-status").innerHTML = "";
     document.getElementById("computer-status").innerHTML = "";
     let result_div = document.getElementById("resultarea");
     let result_message = document.createElement("h2");
-    if(winner == "User"){
+    if(loser == "User"){
         result_message.innerText = "Computer Wins, Game Over. Better Luck Next Time";
+        current_losses += 1;
     }
-    if(winner == "Computer"){
+    if(loser == "Computer"){
         result_message.innerText = "You Win, Want To Go Again?";
+        current_wins += 1;
     }
+    current_gamesPlayed += 1;
     let button_div = document.createElement("div");
     let new_game_button = document.createElement("button");
     new_game_button.innerText = "Start A New Game";
@@ -379,10 +386,10 @@ const updateResult = function(winner){
     leaderboard_button.addEventListener("click", handleGoToLeaderboard);
     button_div.appendChild(new_game_button);
     button_div.appendChild(leaderboard_button);
-
     result_div.appendChild(result_message);
     result_div.appendChild(button_div);
     gameinprogress = false;
+    updateUserInfo();
 }
 
 const handleGameReset = function(){
@@ -399,9 +406,49 @@ const handleGoToLeaderboard = function(){
     console.log("Attempting to navigate to Leaderboard");
 }
 
+/*const createUser = async function(){
+    //only running once
+    const result = await axios({
+        method: 'post',
+        url: 'https://battleshipcomp426.herokuapp.com/api/user',
+        //withCredentials: true,
+        data: {
+            username: "WinterSoldier",
+            password: "captain21"
+        }
+      });
+    console.log(result);
+}*/
+
+const getUserInfo = async function(){
+    const result = await axios({
+        method: 'get',
+        url: 'https://battleshipcomp426.herokuapp.com/api/user/' + username,
+        //withCredentials: true,
+    });
+    current_gamesPlayed = result.data.gamesPlayed;
+    current_losses = result.data.losses;
+    current_wins = result.data.wins;
+    current_shipsSunk = result.data.shipsSunk;
+}
+
+const updateUserInfo = async function(){
+    const result = await axios({
+        method: 'put',
+        url: 'https://battleshipcomp426.herokuapp.com/api/user/' + username,
+        //withCredentials: true,
+        data: {
+            gamesPlayed: current_gamesPlayed,
+            losses: current_losses,
+            wins: current_wins,
+            shipsSunk: current_shipsSunk
+        }
+      });
+}
 
 window.onload = () => {
     renderInitialBoards();
     renderButtons();
     gameinprogress = false;
+    getUserInfo();
 };

@@ -1,7 +1,7 @@
 export default class Board{
-    constructor(startboard, player){
+    constructor(startboard, owner){
         this.board = startboard;
-        this.player = player;
+        this.owner = owner;
         this.arrlength = startboard.length;
         this.dimension = Math.sqrt(this.arrlength);
         this.state = Board.State.INITIALIZED;
@@ -22,7 +22,7 @@ export default class Board{
     }
 
     updateLose(){
-        this.loseListeners.forEach((callback) => callback(this.player));
+        this.loseListeners.forEach((callback) => callback(this.owner));
     }
     shoot(x, y){
         if(this.state == Board.State.INITIALIZED){
