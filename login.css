@@ -1,5 +1,39 @@
 body > *{
     width: 50%x;
-    margin: 20px auto;
+    margin: 0px auto;
     text-align: center;
+    font-family: 'Courier', Courier, monospace;
+}
+html > *{
+    background-color: lightblue;
+}
+h1 {
+    margin: 40px;
+    font-weight: normal;
+    font-size: 40px;
+}
+h2 {
+    margin-top: 50px;
+    font-weight: lighter;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+#loginarea {
+    padding: 30px;
+}
+label {
+    padding: 10px;
+}
+button {
+    margin: 5px;
+    margin-top: 5px;
+    text-align: center;
+    font-size: 14px;
+    font-family: 'Courier';
+}
+.loginerror {
+    color: red
+}
+.forminput {
+    margin: -15px;
 }
