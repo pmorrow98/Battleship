@@ -432,8 +432,19 @@ const updateUserInfo = async function(){
       });
 }
 
+const handleLogout = async function(){
+    const result = await axios({
+        method: 'post',
+        url: 'https://battleshipcomp426.herokuapp.com/api/logout',
+        //withCredentials: true,
+      });
+    console.log(result);
+    window.location.replace("./index.html");
+}
+
 window.onload = () => {
     username = window.location.hash.substring(1);
+    document.getElementById("logout").addEventListener("click" , handleLogout)
     renderInitialBoards();
     renderButtons();
     gameinprogress = false;
