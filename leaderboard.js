@@ -1,15 +1,6 @@
+let usernames = [];
+
 const makePage = function(){
-    
-    let theTitle =document.createElement('h1');
-    theTitle.className = 'title';
-    theTitle.innerText = 'Battleship Leaderboard Page';
-
-    let searchBar = document.createElement('textarea');
-    searchBar.className = 'searchBar';
-    searchBar.placeholder = 'Search for User';
-
-    let theHeader = document.createElement('section');
-    theHeader.id = 'header';
 
     let theBoard = document.createElement('table');
     theBoard.className = 'board';
@@ -57,12 +48,8 @@ const makePage = function(){
     let homePage = document.createElement('div');
     homePage.id = 'main';
     
-    console.log('hello');
     homePage.appendChild(theBoard);
-    theHeader.appendChild(searchBar);
-    theHeader.appendChild(theTitle);
     
-    document.body.appendChild(theHeader);
     document.body.appendChild(homePage);
 
 };
@@ -160,7 +147,30 @@ function refreshFeed(filter){
         }
     })
     getStats(filter);
-};
+}
+
+function handleInput(event){
+    if(document.getElementById("autocompletearea") != null){
+        document.getElementById("autocompletearea").remove();
+    }
+    if(document.getElementById("searchbox").value){
+        let autocomplete_div = document.createElement('div');
+        autocomplete_div.id = "autocompletearea";
+        event.target.parentNode.appendChild(autocomplete_div);
+        let value = event.target.value;
+        usernames.forEach((username) => {
+            if(username.substr(0, value.length).toLowerCase() == value.toLowerCase()){
+                let option = document.createElement('div');
+                option.innerText = username;
+                autocomplete_div.appendChild(option);
+                option.addEventListener("click", (e) => {
+                    document.getElementById("searchbox").value = e.target.innerText;
+                    autocomplete_div.remove();
+                });
+            }
+        });
+    }
+}
 
 const handleLogout = async function(){
     const result = await axios({
@@ -172,10 +182,20 @@ const handleLogout = async function(){
     window.location.replace("./index.html");
 }
 
+const getUsernames = async function(){
+    const result = await axios({
+        method: 'get',
+        url: 'https://battleshipcomp426.herokuapp.com/api/user',
+        //withCredentials: true,
+    });
+    result.data.forEach((user) => usernames.push(user.username));
+}
 
 window.onload = ()=>{
     getStats("wins");
+    getUsernames();
     document.getElementById("logout").addEventListener("click" , handleLogout);
+    document.getElementById("searchbox").addEventListener("input", (e) => handleInput(e));
     makePage();
 };
 
