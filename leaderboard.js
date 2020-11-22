@@ -11,32 +11,38 @@ const makePage = function(){
     let theHeader = document.createElement('section');
     theHeader.id = 'header';
 
-    let theLabels = document.createElement('div');
+    let theBoard = document.createElement('table');
+    theBoard.className = 'board';
+    theBoard.id = 'board';
+
+    let theLabels = document.createElement('tr');
     theLabels.id = 'topLabels';
 
-    let theUsername = document.createElement('h3');
+    theBoard.appendChild(theLabels);
+
+    let theUsername = document.createElement('td');
     theUsername.className ='sortCat';
     theUsername.innerText = 'Username'
 
-    let numGames = document.createElement('h3');
+    let numGames = document.createElement('td');
     numGames.className = 'sortCat';
     numGames.id = 'numgames';
     numGames.innerText = '# Games Played:';
     numGames.addEventListener('click', ()=>{refreshFeed("gamesPlayed")});
 
-    let numWins = document.createElement('h3');
+    let numWins = document.createElement('td');
     numWins.className = 'sortCat';
     numWins.id = 'numwins';
     numWins.innerText = '# Wins:';
     numWins.addEventListener('click', ()=>{refreshFeed("wins")});
 
-    let numLoses = document.createElement('h3');
+    let numLoses = document.createElement('td');
     numLoses.className = 'sortCat';
     numLoses.id = 'numloses';
     numLoses.innerText = '# Losses:';
     numLoses.addEventListener('click', ()=>{refreshFeed("losses")});
 
-    let numShipsSunk = document.createElement('h3');
+    let numShipsSunk = document.createElement('td');
     numShipsSunk.className = 'sortCat';
     numShipsSunk.id = 'numshipssunk';
     numShipsSunk.innerText = '# Ships Sunk:';
@@ -48,14 +54,11 @@ const makePage = function(){
     theLabels.appendChild(numLoses);
     theLabels.appendChild(numShipsSunk);
 
-    let homePage = document.createElement('section');
+    let homePage = document.createElement('div');
     homePage.id = 'main';
     
-    let theFeed = document.createElement('div');
-    theFeed.id = 'feed';
     console.log('hello');
-    homePage.appendChild(theLabels);
-    homePage.appendChild(theFeed);
+    homePage.appendChild(theBoard);
     theHeader.appendChild(searchBar);
     theHeader.appendChild(theTitle);
     
@@ -69,7 +72,7 @@ async function getStats(filter){
         method: 'get',
         url: 'https://battleshipcomp426.herokuapp.com/api/user',
     });
-    let theFeed = document.getElementById('feed');
+    let theBoard = document.getElementById('board');
     if(filter=="wins"){
         let holdeles = document.getElementsByClassName("sortCat");
         Array.from(holdeles).forEach(element => {
@@ -77,7 +80,7 @@ async function getStats(filter){
         });
         document.getElementById("numwins").className = "sortCat sortedBy";
         theUsers.data.sort((a,b)=>b.wins-a.wins).forEach(element => {
-            theFeed.appendChild(leaderboardLayout(element));
+            theBoard.appendChild(leaderboardLayout(element));
         });
     }
     if(filter=="gamesPlayed"){
@@ -87,7 +90,7 @@ async function getStats(filter){
         });
         document.getElementById("numgames").className = "sortCat sortedBy";
         theUsers.data.sort((a,b)=>b.gamesPlayed-a.gamesPlayed).forEach(element => {
-            theFeed.appendChild(leaderboardLayout(element));
+            theBoard.appendChild(leaderboardLayout(element));
         });
     }
     if(filter=="losses"){
@@ -97,43 +100,45 @@ async function getStats(filter){
         });
         document.getElementById("numloses").className = "sortCat sortedBy";
         theUsers.data.sort((a,b)=>b.losses-a.losses).forEach(element => {
-            theFeed.appendChild(leaderboardLayout(element));
+            theBoard.appendChild(leaderboardLayout(element));
         });
     }
     if(filter=="shipsSunk"){
         let holdeles = document.getElementsByClassName("sortCat");
+        console.log(holdeles);
         Array.from(holdeles).forEach(element => {
             element.className = "sortCat";
         });
         document.getElementById("numshipssunk").className = "sortCat sortedBy";
         theUsers.data.sort((a,b)=>b.shipsSunk-a.shipsSunk).forEach(element => {
-            theFeed.appendChild(leaderboardLayout(element));
+            theBoard.appendChild(leaderboardLayout(element));
      });
     }
 
 };
 
 function leaderboardLayout(user){
-    let theLine = document.createElement('div');
+    
+    let theLine = document.createElement('tr');
     theLine.className = 'theLine';
     
-    let theUsername = document.createElement('h3');
+    let theUsername = document.createElement('td');
     theUsername.className ='username';
     theUsername.innerText = `${user.username}`;
 
-    let numGames = document.createElement('h3');
-    numGames.className = 'numGames';
+    let numGames = document.createElement('td');
+    numGames.className = 'numberOfGames';
     numGames.innerText = `${user.gamesPlayed}`;
 
-    let numWins = document.createElement('h3');
-    numWins.className = 'numWins';
+    let numWins = document.createElement('td');
+    numWins.className = 'numberOfWins';
     numWins.innerText = `${user.wins}`;
 
-    let numLoses = document.createElement('h3');
-    numLoses.className = 'numLosses';
+    let numLoses = document.createElement('td');
+    numLoses.className = 'numberOfLosses';
     numLoses.innerText = `${user.losses}`;
 
-    let numShipsSunk = document.createElement('h3');
+    let numShipsSunk = document.createElement('td');
     numShipsSunk.className = 'shipsSunk';
     numShipsSunk.innerText = `${user.shipsSunk}`;
 
@@ -148,16 +153,29 @@ function leaderboardLayout(user){
 
 
 function refreshFeed(filter){
-    let theFeed = document.getElementById('feed');
-    while(theFeed.firstChild){
-        theFeed.removeChild(theFeed.firstChild);
-    }  
+    let tableChildren = document.getElementById('board').childNodes;
+    Array.from(tableChildren).forEach(element =>{
+        if(element.id!="topLabels"){
+            element.remove();
+        }
+    })
     getStats(filter);
 };
+
+const handleLogout = async function(){
+    const result = await axios({
+        method: 'post',
+        url: 'https://battleshipcomp426.herokuapp.com/api/logout',
+        //withCredentials: true,
+      });
+    console.log(result);
+    window.location.replace("./index.html");
+}
 
 
 window.onload = ()=>{
     getStats("wins");
+    document.getElementById("logout").addEventListener("click" , handleLogout);
     makePage();
 };
 
