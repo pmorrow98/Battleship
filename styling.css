@@ -6,3 +6,39 @@ h3{
     font-weight: bold;
     color:blue;
 }
+.navbar{
+    display: inline-block;
+    width: 45%;
+    height: 25px;
+    text-align: center;
+    background-color: darkgrey;
+    font-size: large;
+}
+.navbar > a{
+    text-decoration: none;
+    color: black;
+}
+.logout{
+    display: inline-block;
+    width: 8%;
+    height: 25px;
+    text-align: center;
+    background-color: darkgrey;
+    font-size: large;
+}
+table {
+    border: outset 5pt blue;
+    border-collapse: separate;
+    border-spacing: 15pt;
+    }
+    td {
+        width: 70px;
+        height: 70px;
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        vertical-align: middle;
+        position: relative;
+        border: 2px solid;
+        border: outset 4pt red; 
+      }
