@@ -2,3 +2,7 @@ h3{
  display:inline-block;
  width: 130px;
 }
+.sortedBy{
+    font-weight: bold;
+    color:blue;
+}

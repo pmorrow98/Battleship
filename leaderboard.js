@@ -15,26 +15,30 @@ const makePage = function(){
     theLabels.id = 'topLabels';
 
     let theUsername = document.createElement('h3');
-    theUsername.className ='usernameTitle';
+    theUsername.className ='sortCat';
     theUsername.innerText = 'Username'
 
     let numGames = document.createElement('h3');
-    numGames.className = 'numGamesTitle';
+    numGames.className = 'sortCat';
+    numGames.id = 'numgames';
     numGames.innerText = '# Games Played:';
     numGames.addEventListener('click', ()=>{refreshFeed("gamesPlayed")});
 
     let numWins = document.createElement('h3');
-    numWins.className = 'numWins';
+    numWins.className = 'sortCat';
+    numWins.id = 'numwins';
     numWins.innerText = '# Wins:';
     numWins.addEventListener('click', ()=>{refreshFeed("wins")});
 
     let numLoses = document.createElement('h3');
-    numLoses.className = 'numLosses';
+    numLoses.className = 'sortCat';
+    numLoses.id = 'numloses';
     numLoses.innerText = '# Losses:';
     numLoses.addEventListener('click', ()=>{refreshFeed("losses")});
 
     let numShipsSunk = document.createElement('h3');
-    numShipsSunk.className = 'shipsSunk';
+    numShipsSunk.className = 'sortCat';
+    numShipsSunk.id = 'numshipssunk';
     numShipsSunk.innerText = '# Ships Sunk:';
     numShipsSunk.addEventListener('click', ()=>{refreshFeed("shipsSunk")});
 
@@ -61,28 +65,51 @@ const makePage = function(){
 };
 
 async function getStats(filter){
-    console.log('clicked');
     let theUsers = await axios({
         method: 'get',
         url: 'https://battleshipcomp426.herokuapp.com/api/user',
     });
     let theFeed = document.getElementById('feed');
-    if(filter=="wins")
+    if(filter=="wins"){
+        let holdeles = document.getElementsByClassName("sortCat");
+        Array.from(holdeles).forEach(element => {
+            element.className = "sortCat";
+        });
+        document.getElementById("numwins").className = "sortCat sortedBy";
         theUsers.data.sort((a,b)=>b.wins-a.wins).forEach(element => {
             theFeed.appendChild(leaderboardLayout(element));
         });
-    if(filter=="gamesPlayed")
+    }
+    if(filter=="gamesPlayed"){
+        let holdeles = document.getElementsByClassName("sortCat");
+        Array.from(holdeles).forEach(element => {
+            element.className = "sortCat";
+        });
+        document.getElementById("numgames").className = "sortCat sortedBy";
         theUsers.data.sort((a,b)=>b.gamesPlayed-a.gamesPlayed).forEach(element => {
-        theFeed.appendChild(leaderboardLayout(element));
-    });
-    if(filter=="losses")
+            theFeed.appendChild(leaderboardLayout(element));
+        });
+    }
+    if(filter=="losses"){
+        let holdeles = document.getElementsByClassName("sortCat");
+        Array.from(holdeles).forEach(element => {
+            element.className = "sortCat";
+        });
+        document.getElementById("numloses").className = "sortCat sortedBy";
         theUsers.data.sort((a,b)=>b.losses-a.losses).forEach(element => {
-        theFeed.appendChild(leaderboardLayout(element));
-    });
-    if(filter=="shipsSunk")
+            theFeed.appendChild(leaderboardLayout(element));
+        });
+    }
+    if(filter=="shipsSunk"){
+        let holdeles = document.getElementsByClassName("sortCat");
+        Array.from(holdeles).forEach(element => {
+            element.className = "sortCat";
+        });
+        document.getElementById("numshipssunk").className = "sortCat sortedBy";
         theUsers.data.sort((a,b)=>b.shipsSunk-a.shipsSunk).forEach(element => {
-        theFeed.appendChild(leaderboardLayout(element));
-    });
+            theFeed.appendChild(leaderboardLayout(element));
+     });
+    }
 
 };
 
