@@ -3,8 +3,28 @@ body {
     background-color: rgb(255, 251, 240);
 }
 
-h1 {
+.navbar{
+    display: inline-block;
+    width: 45%;
+    height: 25px;
     text-align: center;
+    background-color: darkgrey;
+    font-size: large;
+}
+.navbar > a{
+    text-decoration: none;
+    color: black;
+}
+.logout{
+    display: inline-block;
+    width: 8%;
+    height: 25px;
+    text-align: center;
+    background-color: darkgrey;
+    font-size: large;
+}
+h1{
+    margin-left: 15%;
 }
 #gamearea{
     margin: auto;
