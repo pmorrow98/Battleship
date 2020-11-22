@@ -422,7 +422,7 @@ const updateUserInfo = async function(){
     const result = await axios({
         method: 'put',
         url: 'https://battleshipcomp426.herokuapp.com/api/user/' + username,
-        //withCredentials: true,
+        withCredentials: true,
         data: {
             gamesPlayed: current_gamesPlayed,
             losses: current_losses,
@@ -436,7 +436,6 @@ const handleLogout = async function(){
     const result = await axios({
         method: 'get',
         url: 'https://battleshipcomp426.herokuapp.com/api/logout',
-        //withCredentials: true,
       });
     window.location.replace("./index.html");
 }
