@@ -174,7 +174,7 @@ function handleInput(event){
 
 const handleLogout = async function(){
     const result = await axios({
-        method: 'post',
+        method: 'get',
         url: 'https://battleshipcomp426.herokuapp.com/api/logout',
         //withCredentials: true,
       });
