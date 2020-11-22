@@ -6,6 +6,8 @@ const renderLogin = function(){
     area_div.innerHTML = "";
     let form = document.createElement("form");
 
+    let usernametag = document.createElement("p");
+    usernametag.classList.add('forminput')
     let username_label = document.createElement("label");
     username_label.innerText = "Username";
     username_label.for = "username";
@@ -15,6 +17,8 @@ const renderLogin = function(){
     username_input.id = "username";
     username_input.name = "username";
 
+    let passwordtag = document.createElement("p");
+    passwordtag.classList.add('forminput');
     let password_label = document.createElement("label");
     password_label.innerText = "Password";
     password_label.for = "password";
@@ -33,15 +37,17 @@ const renderLogin = function(){
     incorrect_area.id = "incorrect_area";
 
     let createuser_button = document.createElement("button");
-    createuser_button.innerText = "Or Create an Account";
+    createuser_button.innerText = "Create an Account";
     createuser_button.addEventListener("click", renderCreateUser);
 
-    form.appendChild(username_label);
-    form.appendChild(username_input);
+    usernametag.appendChild(username_label);
+    usernametag.appendChild(username_input);
+    form.appendChild(usernametag);
     form.appendChild(document.createElement("br"));
     form.appendChild(document.createElement("br"));
-    form.appendChild(password_label);
-    form.appendChild(password_input);
+    passwordtag.appendChild(password_label);
+    passwordtag.appendChild(password_input);
+    form.appendChild(passwordtag);
     form.appendChild(document.createElement("br"));
     form.appendChild(incorrect_area);
     form.appendChild(submit_button);
@@ -87,12 +93,15 @@ const renderCreateUser = function(){
     area_div.innerHTML = "";
     let form = document.createElement("form");
 
+    let usernametag = document.createElement("p");
+    usernametag.classList.add('forminput')
     let username_label = document.createElement("label");
-    username_label.innerText = "Choose a Username";
+    username_label.innerText = "Choose Username";
     username_label.for = "username";
 
     let username_status = document.createElement("p");
     username_status.id = "username_status";
+    username_status.classList.add('loginerror');
 
     let username_input = document.createElement("input");
     username_input.type = "text";
@@ -100,8 +109,10 @@ const renderCreateUser = function(){
     username_input.name = "username";
     username_input.addEventListener("input", (e) => usernameCheck(e));
 
+    let passwordtag = document.createElement("p");
+    passwordtag.classList.add('forminput');
     let password_label = document.createElement("label");
-    password_label.innerText = "Create a Password";
+    password_label.innerText = "Create Password";
     password_label.for = "password";
 
     let password_input = document.createElement("input");
@@ -111,6 +122,7 @@ const renderCreateUser = function(){
 
     let password_status = document.createElement("p");
     password_status.id = "password_status";
+    password_status.classList.add('loginerror');
 
     let submit_button = document.createElement("button");
     submit_button.type = "submit";
@@ -124,15 +136,17 @@ const renderCreateUser = function(){
     login_button.innerText = "Go Back To Login";
     login_button.addEventListener("click", renderLogin);
 
-    form.appendChild(username_label);
-    form.appendChild(username_input);
-    form.appendChild(username_status);
+    usernametag.appendChild(username_label);
+    usernametag.appendChild(username_input);
+    form.appendChild(usernametag);
     form.appendChild(document.createElement("br"));
     form.appendChild(document.createElement("br"));
-    form.appendChild(password_label);
-    form.appendChild(password_input);
-    form.appendChild(password_status);
+    passwordtag.appendChild(password_label);
+    passwordtag.appendChild(password_input);
+    form.appendChild(passwordtag);
     form.appendChild(document.createElement("br"));
+    incorrect_area.appendChild(username_status);
+    incorrect_area.appendChild(password_status);
     form.appendChild(incorrect_area);
     form.appendChild(submit_button);
 
