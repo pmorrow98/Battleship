@@ -7,7 +7,7 @@ let current_ship = 0;
 let myBoard, computerBoard;
 let computer;
 let gameinprogress;
-let username = "WinterSoldier";
+let username;
 let current_gamesPlayed, current_losses, current_wins, current_shipsSunk;
 
 const renderInitialBoards = function(){
@@ -406,20 +406,6 @@ const handleGoToLeaderboard = function(){
     console.log("Attempting to navigate to Leaderboard");
 }
 
-/*const createUser = async function(){
-    //only running once
-    const result = await axios({
-        method: 'post',
-        url: 'https://battleshipcomp426.herokuapp.com/api/user',
-        //withCredentials: true,
-        data: {
-            username: "WinterSoldier",
-            password: "captain21"
-        }
-      });
-    console.log(result);
-}*/
-
 const getUserInfo = async function(){
     const result = await axios({
         method: 'get',
@@ -447,6 +433,7 @@ const updateUserInfo = async function(){
 }
 
 window.onload = () => {
+    username = window.location.hash.substring(1);
     renderInitialBoards();
     renderButtons();
     gameinprogress = false;
