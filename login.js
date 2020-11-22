@@ -68,7 +68,7 @@ const handleLoginSubmit = async function(event){
         const result = await axios({
             method: 'post',
             url: 'https://battleshipcomp426.herokuapp.com/api/login',
-            //withCredentials: true,
+            withCredentials: true,
             data : {
                 username: submit_username,
                 password: submit_password
@@ -180,7 +180,6 @@ const handleCreateUserSubmit = async function(event){
             const result = await axios({
                 method: 'post',
                 url: 'https://battleshipcomp426.herokuapp.com/api/user',
-                //withCredentials: true,
                 data : {
                     username: submit_username,
                     password: submit_password
@@ -197,7 +196,6 @@ const getUsernames = async function(){
     const result = await axios({
         method: 'get',
         url: 'https://battleshipcomp426.herokuapp.com/api/user',
-        //withCredentials: true,
     });
     result.data.forEach((user) => usernames.push(user.username));
 }
