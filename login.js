@@ -76,7 +76,8 @@ const handleLoginSubmit = async function(event){
         });
         if(result.data == true){
             // push to game.html page
-            window.location.href = "./game.html" + "#" + submit_username;
+            document.cookie = submit_username;
+            window.location.href = "./game.html";
         } 
         else{
             //put code here to render incorect login text
