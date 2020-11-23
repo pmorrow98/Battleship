@@ -4,8 +4,17 @@ let stats;
 const makePage = function(){
 
     let theBoard = document.createElement('table');
-    theBoard.className = 'board';
-    theBoard.id = 'board';
+    theBoard.className = 'table';
+    theBoard.id = 'table';
+
+    /*let lines = document.createElement('div');
+    lines.className = 'lines';
+    theBoard.appendChild(lines);
+    */
+
+    body = document.createElement('tbody');
+    body.className = 'board';
+    body.id = 'board';
 
     let theSearch = document.getElementById('searcharea');
     theSearch.addEventListener('submit', (e)=>{handleSearchSubmit(e)});
@@ -13,37 +22,40 @@ const makePage = function(){
     let theClear = document.getElementById('clearbutton');
     theClear.addEventListener('click', (e)=>{handleClearButton(e)});
 
+    let header = document.createElement('thead');
     let theLabels = document.createElement('tr');
-    theLabels.id = 'topLabels';
+    header.appendChild(theLabels)
 
-    theBoard.appendChild(theLabels);
+    theBoard.appendChild(header);
+    theBoard.appendChild(body);
 
-    let theUsername = document.createElement('td');
-    theUsername.className ='sortCat';
+    let theUsername = document.createElement('th');
+    theUsername.className ='sortCat username';
     theUsername.innerText = 'Username'
+    theUsername.id = "username"
 
-    let numGames = document.createElement('td');
+    let numGames = document.createElement('th');
     numGames.className = 'sortCat';
     numGames.id = 'numgames';
-    numGames.innerText = '# Games Played:';
+    numGames.innerText = 'Games Played:';
     numGames.addEventListener('click', ()=>{refreshFeed("gamesPlayed")});
 
-    let numWins = document.createElement('td');
+    let numWins = document.createElement('th');
     numWins.className = 'sortCat';
     numWins.id = 'numwins';
-    numWins.innerText = '# Wins:';
+    numWins.innerText = 'Wins:';
     numWins.addEventListener('click', ()=>{refreshFeed("wins")});
 
-    let numLoses = document.createElement('td');
+    let numLoses = document.createElement('th');
     numLoses.className = 'sortCat';
     numLoses.id = 'numloses';
-    numLoses.innerText = '# Losses:';
+    numLoses.innerText = 'Losses:';
     numLoses.addEventListener('click', ()=>{refreshFeed("losses")});
 
-    let numShipsSunk = document.createElement('td');
+    let numShipsSunk = document.createElement('th');
     numShipsSunk.className = 'sortCat';
     numShipsSunk.id = 'numshipssunk';
-    numShipsSunk.innerText = '# Ships Sunk:';
+    numShipsSunk.innerText = 'Ships Sunk:';
     numShipsSunk.addEventListener('click', ()=>{refreshFeed("shipsSunk")});
 
     theLabels.appendChild(theUsername);
@@ -98,13 +110,12 @@ function renderStats(filter){
             element.className = "sortCat";
         });
         document.getElementById("numloses").className = "sortCat sortedBy";
-        stats.sort((a,b)=>b.losses-a.losses).forEach(element => {
+        stats.sort((a,b)=>a.losses-b.losses).forEach(element => {
             theBoard.appendChild(leaderboardLayout(element));
         });
     }
     if(filter=="shipsSunk"){
         let holdeles = document.getElementsByClassName("sortCat");
-        console.log(holdeles);
         Array.from(holdeles).forEach(element => {
             element.className = "sortCat";
         });
@@ -119,10 +130,13 @@ function leaderboardLayout(user){
     
     let theLine = document.createElement('tr');
     theLine.className = 'theLine';
-    
-    let theUsername = document.createElement('td');
+
+    let theUsername = document.createElement('th');
     theUsername.className ='username';
     theUsername.innerText = `${user.username}`;
+    if (user.username == document.cookie) {
+        theLine.className = 'theLine red';
+    }
 
     let numGames = document.createElement('td');
     numGames.className = 'numberOfGames';

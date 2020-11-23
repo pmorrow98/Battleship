@@ -8,13 +8,15 @@
         <link rel="stylesheet" href="styling.css"/>
     </head>
     <body>
+        <h1>Battleship</h1>
         <nav>
-            <div class = "navbar"><a href = "./game.html">Game</a></div>
-            <div class = "navbar"><a href = "./leaderboard.html">Leaderboard</a></div>
-            <div class = "logout"><button id = "logout">Logout</button></div>
+            <ul>
+                <li><a href = "./game.html">Game</a></li>
+                <li><a href = "./leaderboard.html">Leaderboard</a></li>
+                <li><a id = "logout" href ="/index.html">Logout</a></li>
+            </ul>
         </nav>
-        <h1>Leaderboard</h1>
-        <form id = "searcharea">
+        <form autocomplete="off" id = "searcharea">
             <input type = "text" id = "searchbox" placeholder="Search for User">
             <button type = "button" id = "clearbutton" >Clear Search</button>
         </form>
