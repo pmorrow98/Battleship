@@ -68,7 +68,7 @@ const handleLoginSubmit = async function(event){
         const result = await axios({
             method: 'post',
             url: 'https://battleshipcomp426.herokuapp.com/api/login',
-            //withCredentials: true,
+            withCredentials: true,
             data : {
                 username: submit_username,
                 password: submit_password
@@ -76,7 +76,7 @@ const handleLoginSubmit = async function(event){
         });
         if(result.data == true){
             // push to game.html page
-            window.location.replace("./game.html" + "#" + submit_username);
+            window.location.href = "./game.html" + "#" + submit_username;
         } 
         else{
             //put code here to render incorect login text
@@ -180,7 +180,6 @@ const handleCreateUserSubmit = async function(event){
             const result = await axios({
                 method: 'post',
                 url: 'https://battleshipcomp426.herokuapp.com/api/user',
-                //withCredentials: true,
                 data : {
                     username: submit_username,
                     password: submit_password
@@ -197,7 +196,7 @@ const getUsernames = async function(){
     const result = await axios({
         method: 'get',
         url: 'https://battleshipcomp426.herokuapp.com/api/user',
-        //withCredentials: true,
+        withCredentials: true,
     });
     result.data.forEach((user) => usernames.push(user.username));
 }
