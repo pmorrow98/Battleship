@@ -398,8 +398,8 @@ const handleGameReset = function(){
     document.getElementById("computerboard").innerHTML = "";
     current_ship = 0;
     gameinprogress = false;
-    renderInitialBoards();
     renderButtons();
+    renderInitialBoards();
 }
 
 const handleGoToLeaderboard = function(){
@@ -436,15 +436,15 @@ const handleLogout = async function(){
     const result = await axios({
         method: 'get',
         url: 'https://battleshipcomp426.herokuapp.com/api/logout',
+        withCredentials: true,
       });
-    window.location.replace("./index.html");
 }
 
 window.onload = () => {
     username = window.location.hash.substring(1);
     document.getElementById("logout").addEventListener("click" , handleLogout)
-    renderInitialBoards();
     renderButtons();
+    renderInitialBoards();
     gameinprogress = false;
     getUserInfo();
 };

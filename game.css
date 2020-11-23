@@ -1,34 +1,46 @@
 body {
-    font-family: 'Trebuchet MS';
-    background-color: rgb(255, 251, 240);
+    font-family: 'Courier', Courier, monospace;
+    background-color: lightblue;
+}
+h1 {
+    text-align: center;
+    font-size: 50px;
+    margin: 30px;
+    font-weight: normal;
+}
+#control-area {
+    text-align: center;
+    margin: 50px;
+    margin-top: 40px;
+    margin-bottom: 20px;
 }
 
-.navbar{
-    display: inline-block;
-    width: 45%;
-    height: 25px;
-    text-align: center;
-    background-color: darkgrey;
-    font-size: large;
+nav {
+    list-style:none;
+    margin-left: -200px;
+    margin-right: -200px;
+    text-align:center;
+    
 }
-.navbar > a{
+nav li{
+    display:inline;
+    margin: -10px
+}
+nav a, a:visited{
+    display:inline-block;
     text-decoration: none;
-    color: black;
-}
-.logout{
-    display: inline-block;
-    width: 8%;
-    height: 25px;
+    background-color: #34495E;
+    color: white;
+    padding: 5px 12%;
     text-align: center;
-    background-color: darkgrey;
-    font-size: large;
 }
-h1{
-    margin-left: 15%;
+nav a:hover {
+    background-color: #3498DB;
 }
 #gamearea{
     margin: auto;
     text-align: center;
+    margin-bottom: 100px;
 }
 .side{
     display: inline-block;
@@ -43,25 +55,23 @@ h1{
     margin: auto;
 }
 
-#control-area{
-    text-align: left;
-}
-
 .status-area{
     text-align: left;
+    margin: 10px;
 }
 
 .status-block > *{
     display: inline-block;
 }
+
 .status-block > h3{
     width: 100px;
-    margin-right: 10px;
+    margin-right: 50px;
 }
 .sink-notification{
-    color: darkred;
-    font-weight: bold;
-    font-family: fantasy;
+    color: red;
+    font-weight: bolder;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 #resultarea > *{
@@ -74,17 +84,17 @@ h1{
 	padding: 5px;
 	height: 420px;
 	width: 420px;
-	background-color: #195888;
+	background-color: #34495E;
     border-radius: 5px;
+    border-width: thick;
     margin: auto;
 }
-
 .grid-cell {
     vertical-align: top;
     height: 40px;
     width: 40px;
     display: inline-block;
-    background-color: #9ed0f7;
+    background-color: #3498DB;
     margin: 1px;
     border-radius: 2px;
 }
