@@ -198,8 +198,7 @@ const handleShootClick = function(event){
                 }
             }
             else{
-                let cell_position = event.target.getBoundingClientRect();
-                explode(cell_position.left, cell_position.top);
+                explode(event.clientX, event.clientY);
                 event.target.className = "miss-cell";
             }
             let computer_shot = computer.getShot();
@@ -228,10 +227,7 @@ const handleShootClick = function(event){
             }
             if(computer_result == 0){
                 //render computer miss
-                let miss_cell = document.getElementById("my" + computer_shot[0] + computer_shot[1]);
-                miss_cell.className = "miss-cell";
-                let cell_position = miss_cell.getBoundingClientRect();
-                explode(cell_position.left, cell_position.top);
+                document.getElementById("my" + computer_shot[0] + computer_shot[1]).className = "miss-cell";
             }
         }
     }
