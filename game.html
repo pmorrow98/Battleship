@@ -11,25 +11,27 @@
     <body>
         <h1 >Battleship</h1>
         <nav>
-            <div class = "navbar"><a href = "./game.html">Game</a></div>
-            <div class = "navbar"><a href = "./leaderboard.html">Leaderboard</a></div>
-            <div class = "logout"><button id = "logout">Logout</button></div>
+            <ul>
+                <li><a href = "./game.html">Game</a></li>
+                <li><a href = "./leaderboard.html">Leaderboard</a></li>
+                <li><a id = "logout" href ="/index.html">Logout</a></li>
+            </ul>
         </nav>
         <div id = "gamearea">
+            <div id = "control-area"></div>
+            <div id = "human" class = "side">
+                <div class="grid-container">
+                    <h2>Your Board</h2>
+                    <div id = "myboard" class="grid"></div>
+                </div>
+                <div id = "computer-status" class = "status-area"></div>
+            </div>
             <div id = "computer" class = "side">
                 <div class="grid-container">
                     <h2>Computer Board</h2>
                     <div id = "computerboard" class="grid"></div>
                 </div>
                 <div id = "my-status" class = "status-area"></div>
-            </div>
-            <div id = "human" class = "side">
-                <div class="grid-container">
-                    <h2>Your Board</h2>
-                    <div id = "myboard" class="grid"></div>
-                </div>
-                <div id = "control-area"></div>
-                <div id = "computer-status" class = "status-area"></div>
             </div>
         </div>
         <div id = "resultarea"></div>
