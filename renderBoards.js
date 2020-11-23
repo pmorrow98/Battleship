@@ -388,6 +388,15 @@ const updateResult = function(loser){
     button_div.appendChild(leaderboard_button);
     result_div.appendChild(result_message);
     result_div.appendChild(button_div);
+    if(loser == "Computer"){
+        let twitter_div = document.createElement('div');
+        let twitter_message = document.createElement('h3');
+        twitter_message.innerText = "Post your win on Twitter!";
+        twitter_div.appendChild(twitter_message);
+        twitter_div.innerHTML += '<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-text="I just beat a Computer in Battleship!" data-show-count="false">Tweet</a>'//<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
+        result_div.appendChild(twitter_div);
+        runTwitter();
+    }
     gameinprogress = false;
     updateUserInfo();
 }
@@ -438,13 +447,34 @@ const handleLogout = async function(){
         url: 'https://battleshipcomp426.herokuapp.com/api/logout',
         withCredentials: true,
       });
+      document.cookie = "";
+}
+
+const runTwitter = function(){
+    window.twttr = (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0],
+          t = window.twttr || {};
+        if (d.getElementById(id)) return t;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://platform.twitter.com/widgets.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      
+        t._e = [];
+        t.ready = function(f) {
+          t._e.push(f);
+        };
+      
+        return t;
+      }(document, "script", "twitter-wjs"));
 }
 
 window.onload = () => {
-    username = window.location.hash.substring(1);
+    username = document.cookie;
     document.getElementById("logout").addEventListener("click" , handleLogout)
     renderButtons();
     renderInitialBoards();
     gameinprogress = false;
     getUserInfo();
+    //updateResult("Computer");
 };
