@@ -198,7 +198,7 @@ const handleShootClick = function(event){
                 }
             }
             else{
-                explode(event.clientX, event.clientY);
+                explode(event.pageX, event.pageY);
                 event.target.className = "miss-cell";
             }
             let computer_shot = computer.getShot();
@@ -461,8 +461,8 @@ const handleLogout = async function(){
 //explode/splash code adapted from codepen by Nick Sheffield https://codepen.io/nicksheffield/pen/NNEoLg/
 
 function explode(x_target, y_target) {
-	let x = x_target + 30;
-	let y = y_target + 200;
+	let x = x_target;
+	let y = y_target;
 	let c = document.createElement('canvas')
 	let ctx = c.getContext('2d')
 	let ratio = window.devicePixelRatio
@@ -497,8 +497,6 @@ function explode(x_target, y_target) {
 	for(let i=0; ++i<25;) {
 		particles.push(Particle())
 	}
-	
-	console.log(particles[0])
 	
 	function render() {
 		ctx.clearRect(0, 0, c.width, c.height)
