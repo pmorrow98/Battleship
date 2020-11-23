@@ -13,10 +13,10 @@ let current_gamesPlayed, current_losses, current_wins, current_shipsSunk;
 const renderInitialBoards = function(){
     let my_board_div = document.getElementById("myboard");
     let computer_board_div = document.getElementById("computerboard");
-    for (var row = 0; row < 10; row++) {
-        for (var col = 0; col < 10; col++) {
+    for (let row = 0; row < 10; row++) {
+        for (let col = 0; col < 10; col++) {
             //myboard stuff
-            var cell = document.createElement('div');
+            let cell = document.createElement('div');
             cell.className = 'grid-cell';
             cell.data_x = col;
             cell.data_y = row;
@@ -25,7 +25,7 @@ const renderInitialBoards = function(){
             cell.addEventListener("click", handlePlaceClick);
             my_board_div.appendChild(cell);
             //computer board stuff
-            var comp_cell = document.createElement('div');
+            let comp_cell = document.createElement('div');
             comp_cell.className = 'grid-cell';
             comp_cell.data_x = col;
             comp_cell.data_y = row;
@@ -198,6 +198,8 @@ const handleShootClick = function(event){
                 }
             }
             else{
+                let cell_position = event.target.getBoundingClientRect();
+                explode(cell_position.left, cell_position.top);
                 event.target.className = "miss-cell";
             }
             let computer_shot = computer.getShot();
@@ -226,7 +228,10 @@ const handleShootClick = function(event){
             }
             if(computer_result == 0){
                 //render computer miss
-                document.getElementById("my" + computer_shot[0] + computer_shot[1]).className = "miss-cell";
+                let miss_cell = document.getElementById("my" + computer_shot[0] + computer_shot[1]);
+                miss_cell.className = "miss-cell";
+                let cell_position = miss_cell.getBoundingClientRect();
+                explode(cell_position.left, cell_position.top);
             }
         }
     }
@@ -235,10 +240,10 @@ const handleShootClick = function(event){
 const renderMyFinalBoard = function(board){
     let my_board_div = document.getElementById("myboard");
     my_board_div.innerHTML = "";
-    for (var row = 0; row < 10; row++) {
-        for (var col = 0; col < 10; col++) {
+    for (let row = 0; row < 10; row++) {
+        for (let col = 0; col < 10; col++) {
             let current_value = board[(row * 10) + col];
-            var cell = document.createElement('div');
+            let cell = document.createElement('div');
             if(current_value == 0){
                 cell.className = 'grid-cell';
             }
@@ -457,9 +462,91 @@ const handleLogout = async function(){
       document.cookie = "";
 }
 
+//explode/splash code adapted from codepen by Nick Sheffield https://codepen.io/nicksheffield/pen/NNEoLg/
+
+function explode(x_target, y_target) {
+	let x = x_target + 30;
+	let y = y_target + 200;
+	let c = document.createElement('canvas')
+	let ctx = c.getContext('2d')
+	let ratio = window.devicePixelRatio
+	let particles = []
+	
+	document.body.appendChild(c)
+	
+	c.style.position = 'absolute'
+	c.style.left = (x - 100) + 'px'
+	c.style.top = (y - 100) + 'px'
+	c.style.pointerEvents = 'none'
+	c.style.width = 200 + 'px'
+	c.style.height = 200 + 'px'
+	c.width = 200 * ratio
+	c.height = 200 * ratio
+	
+	function Particle() {
+		return {
+			x: c.width / 2,
+			y: c.height / 2,
+			radius: r(20,30),
+            color: 'rgb(' + [r(0,50), r(0,50), r(100,255)].join(',') + ')',
+			rotation: r(0,360, true),
+			speed: r(8,12),
+			friction: 0.9,
+			opacity: r(0,0.5, true),
+			yVel: 0,
+			gravity: 0.1
+		}
+	}
+	
+	for(let i=0; ++i<25;) {
+		particles.push(Particle())
+	}
+	
+	console.log(particles[0])
+	
+	function render() {
+		ctx.clearRect(0, 0, c.width, c.height)
+		
+		particles.forEach(function(p, i) {
+			
+			angleTools.moveOnAngle(p, p.speed)
+			
+			p.opacity -= 0.01
+			p.speed *= p.friction
+			p.radius *= p.friction
+			
+			p.yVel += p.gravity
+			p.y += p.yVel
+			
+			if(p.opacity < 0) return
+			if(p.radius < 0) return
+			
+			ctx.beginPath()
+			ctx.globalAlpha = p.opacity
+			ctx.fillStyle = p.color
+			ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, false)
+			ctx.fill()
+		})
+	}
+	
+	(function renderLoop(){
+		requestAnimationFrame(renderLoop)
+		render()
+	})()
+	
+	setTimeout(function() {
+		document.body.removeChild(c)
+	}, 3000)
+}
+
+let angleTools={getAngle:function(t,n){let a=n.x-t.x,e=n.y-t.y;return Math.atan2(e,a)/Math.PI*180},getDistance:function(t,n){let a=t.x-n.x,e=t.y-n.y;return Math.sqrt(a*a+e*e)},moveOnAngle:function(t,n){let a=this.getOneFrameDistance(t,n);t.x+=a.x,t.y+=a.y},getOneFrameDistance:function(t,n){return{x:n*Math.cos(t.rotation*Math.PI/180),y:n*Math.sin(t.rotation*Math.PI/180)}}};
+function r(a,b,c){ return parseFloat((Math.random()*((a?a:1)-(b?b:0))+(b?b:0)).toFixed(c?c:0)); }
+
+//end of explosion/splash code
+
 const runTwitter = function(){
     window.twttr = (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0],
+        let js, fjs = d.getElementsByTagName(s)[0],
           t = window.twttr || {};
         if (d.getElementById(id)) return t;
         js = d.createElement(s);
@@ -478,7 +565,7 @@ const runTwitter = function(){
 
 const runFacebook = function(){
     (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
+        let js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
         js = d.createElement(s); js.id = id;
         js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
