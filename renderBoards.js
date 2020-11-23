@@ -403,7 +403,7 @@ const handleGameReset = function(){
 }
 
 const handleGoToLeaderboard = function(){
-    console.log("Attempting to navigate to Leaderboard");
+    window.location.href = "./leaderboard.html";
 }
 
 const getUserInfo = async function(){
