@@ -13,10 +13,10 @@ let current_gamesPlayed, current_losses, current_wins, current_shipsSunk;
 const renderInitialBoards = function(){
     let my_board_div = document.getElementById("myboard");
     let computer_board_div = document.getElementById("computerboard");
-    for (var row = 0; row < 10; row++) {
-        for (var col = 0; col < 10; col++) {
+    for (let row = 0; row < 10; row++) {
+        for (let col = 0; col < 10; col++) {
             //myboard stuff
-            var cell = document.createElement('div');
+            let cell = document.createElement('div');
             cell.className = 'grid-cell';
             cell.data_x = col;
             cell.data_y = row;
@@ -25,7 +25,7 @@ const renderInitialBoards = function(){
             cell.addEventListener("click", handlePlaceClick);
             my_board_div.appendChild(cell);
             //computer board stuff
-            var comp_cell = document.createElement('div');
+            let comp_cell = document.createElement('div');
             comp_cell.className = 'grid-cell';
             comp_cell.data_x = col;
             comp_cell.data_y = row;
@@ -179,7 +179,9 @@ const handleShootClick = function(event){
         if(event.target.className == "target-cell"){
             let result = computerBoard.shoot(event.target.data_x, event.target.data_y);
             if(result != 0){
-                event.target.className = "hit-cell";
+                event.target.className = "hit-cell mo-fire";
+                //Fire Animation Code Adapted from Codepen by Deepak K Vijayan https://codepen.io/2xsamurai/pen/EKpYMg
+                event.target.innerHTML = '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"width="125px" height="189.864px" viewBox="0 0 125 189.864" enable-background="new 0 0 125 189.864" xml:space="preserve"><path class="flame-main" fill="#F36E21" d="M76.553,186.09c0,0-10.178-2.976-15.325-8.226s-9.278-16.82-9.278-16.82s-0.241-6.647-4.136-18.465c0,0,3.357,4.969,5.103,9.938c0,0-5.305-21.086,1.712-30.418c7.017-9.333,0.571-35.654-2.25-37.534c0,0,13.07,5.64,19.875,47.54c6.806,41.899,16.831,45.301,6.088,53.985"/><path class="flame-main one" fill="#F6891F" d="M61.693,122.257c4.117-15.4,12.097-14.487-11.589-60.872c0,0,32.016,10.223,52.601,63.123c20.585,52.899-19.848,61.045-19.643,61.582c0.206,0.537-19.401-0.269-14.835-18.532S57.576,137.656,61.693,122.257z"/><path class="flame-main two" fill="#FFD04A" d="M81.657,79.192c0,0,11.549,24.845,3.626,40.02c-7.924,15.175-21.126,41.899-0.425,64.998C84.858,184.21,125.705,150.905,81.657,79.192z"/><path class="flame-main three" fill="#FDBA16" d="M99.92,101.754c0,0-23.208,47.027-12.043,80.072c0,0,32.741-16.073,20.108-45.79C95.354,106.319,99.92,114.108,99.92,101.754z"/><path class="flame-main four" fill="#F36E21" d="M103.143,105.917c0,0,8.927,30.753-1.043,46.868c-9.969,16.115-14.799,29.041-14.799,29.041S134.387,164.603,103.143,105.917z"/><path class="flame-main five" fill="#FDBA16" d="M62.049,104.171c0,0-15.645,67.588,10.529,77.655C98.753,191.894,69.033,130.761,62.049,104.171z"/><path class="flame" fill="#F36E21" d="M101.011,112.926c0,0,8.973,10.519,4.556,16.543C99.37,129.735,106.752,117.406,101.011,112.926z"/><path class="flame one" fill="#F36E21" d="M55.592,126.854c0,0-3.819,13.29,2.699,16.945C64.038,141.48,55.907,132.263,55.592,126.854z"/><path class="flame two" fill="#F36E21" d="M54.918,104.595c0,0-3.959,6.109-1.24,8.949C56.93,113.256,52.228,107.329,54.918,104.595z"/></svg>';
                 if(gameinprogress){
                     let status_div_children = document.getElementById("my-status").childNodes[result - 1].childNodes[1].childNodes;
                     if(status_div_children.length != 1){
@@ -196,13 +198,18 @@ const handleShootClick = function(event){
                 }
             }
             else{
+                let cell_position = event.target.getBoundingClientRect();
+                explode(cell_position.left, cell_position.top);
                 event.target.className = "miss-cell";
             }
             let computer_shot = computer.getShot();
             let computer_result = myBoard.shoot(computer_shot[0], computer_shot[1]);
             if(computer_result != 0){
                 //render computers shot
-                document.getElementById("my" + computer_shot[0] + computer_shot[1]).className = "hit-cell";
+                let hit_cell = document.getElementById("my" + computer_shot[0] + computer_shot[1]);
+                hit_cell.className = "hit-cell mo-fire";
+                //Fire Animation Code Adapted from Codepen by Deepak K Vijayan https://codepen.io/2xsamurai/pen/EKpYMg
+                hit_cell.innerHTML = '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"width="125px" height="189.864px" viewBox="0 0 125 189.864" enable-background="new 0 0 125 189.864" xml:space="preserve"><path class="flame-main" fill="#F36E21" d="M76.553,186.09c0,0-10.178-2.976-15.325-8.226s-9.278-16.82-9.278-16.82s-0.241-6.647-4.136-18.465c0,0,3.357,4.969,5.103,9.938c0,0-5.305-21.086,1.712-30.418c7.017-9.333,0.571-35.654-2.25-37.534c0,0,13.07,5.64,19.875,47.54c6.806,41.899,16.831,45.301,6.088,53.985"/><path class="flame-main one" fill="#F6891F" d="M61.693,122.257c4.117-15.4,12.097-14.487-11.589-60.872c0,0,32.016,10.223,52.601,63.123c20.585,52.899-19.848,61.045-19.643,61.582c0.206,0.537-19.401-0.269-14.835-18.532S57.576,137.656,61.693,122.257z"/><path class="flame-main two" fill="#FFD04A" d="M81.657,79.192c0,0,11.549,24.845,3.626,40.02c-7.924,15.175-21.126,41.899-0.425,64.998C84.858,184.21,125.705,150.905,81.657,79.192z"/><path class="flame-main three" fill="#FDBA16" d="M99.92,101.754c0,0-23.208,47.027-12.043,80.072c0,0,32.741-16.073,20.108-45.79C95.354,106.319,99.92,114.108,99.92,101.754z"/><path class="flame-main four" fill="#F36E21" d="M103.143,105.917c0,0,8.927,30.753-1.043,46.868c-9.969,16.115-14.799,29.041-14.799,29.041S134.387,164.603,103.143,105.917z"/><path class="flame-main five" fill="#FDBA16" d="M62.049,104.171c0,0-15.645,67.588,10.529,77.655C98.753,191.894,69.033,130.761,62.049,104.171z"/><path class="flame" fill="#F36E21" d="M101.011,112.926c0,0,8.973,10.519,4.556,16.543C99.37,129.735,106.752,117.406,101.011,112.926z"/><path class="flame one" fill="#F36E21" d="M55.592,126.854c0,0-3.819,13.29,2.699,16.945C64.038,141.48,55.907,132.263,55.592,126.854z"/><path class="flame two" fill="#F36E21" d="M54.918,104.595c0,0-3.959,6.109-1.24,8.949C56.93,113.256,52.228,107.329,54.918,104.595z"/></svg>';
                 if(gameinprogress){
                     computer.notifyHit(computer_result);
                     let status_div_children = document.getElementById("computer-status").childNodes[computer_result - 1].childNodes[1].childNodes;
@@ -221,7 +228,10 @@ const handleShootClick = function(event){
             }
             if(computer_result == 0){
                 //render computer miss
-                document.getElementById("my" + computer_shot[0] + computer_shot[1]).className = "miss-cell";
+                let miss_cell = document.getElementById("my" + computer_shot[0] + computer_shot[1]);
+                miss_cell.className = "miss-cell";
+                let cell_position = miss_cell.getBoundingClientRect();
+                explode(cell_position.left, cell_position.top);
             }
         }
     }
@@ -230,10 +240,10 @@ const handleShootClick = function(event){
 const renderMyFinalBoard = function(board){
     let my_board_div = document.getElementById("myboard");
     my_board_div.innerHTML = "";
-    for (var row = 0; row < 10; row++) {
-        for (var col = 0; col < 10; col++) {
+    for (let row = 0; row < 10; row++) {
+        for (let col = 0; col < 10; col++) {
             let current_value = board[(row * 10) + col];
-            var cell = document.createElement('div');
+            let cell = document.createElement('div');
             if(current_value == 0){
                 cell.className = 'grid-cell';
             }
@@ -452,9 +462,91 @@ const handleLogout = async function(){
       document.cookie = "";
 }
 
+//explode/splash code adapted from codepen by Nick Sheffield https://codepen.io/nicksheffield/pen/NNEoLg/
+
+function explode(x_target, y_target) {
+	let x = x_target + 30;
+	let y = y_target + 200;
+	let c = document.createElement('canvas')
+	let ctx = c.getContext('2d')
+	let ratio = window.devicePixelRatio
+	let particles = []
+	
+	document.body.appendChild(c)
+	
+	c.style.position = 'absolute'
+	c.style.left = (x - 100) + 'px'
+	c.style.top = (y - 100) + 'px'
+	c.style.pointerEvents = 'none'
+	c.style.width = 200 + 'px'
+	c.style.height = 200 + 'px'
+	c.width = 200 * ratio
+	c.height = 200 * ratio
+	
+	function Particle() {
+		return {
+			x: c.width / 2,
+			y: c.height / 2,
+			radius: r(20,30),
+            color: 'rgb(' + [r(0,50), r(0,50), r(100,255)].join(',') + ')',
+			rotation: r(0,360, true),
+			speed: r(8,12),
+			friction: 0.9,
+			opacity: r(0,0.5, true),
+			yVel: 0,
+			gravity: 0.1
+		}
+	}
+	
+	for(let i=0; ++i<25;) {
+		particles.push(Particle())
+	}
+	
+	console.log(particles[0])
+	
+	function render() {
+		ctx.clearRect(0, 0, c.width, c.height)
+		
+		particles.forEach(function(p, i) {
+			
+			angleTools.moveOnAngle(p, p.speed)
+			
+			p.opacity -= 0.01
+			p.speed *= p.friction
+			p.radius *= p.friction
+			
+			p.yVel += p.gravity
+			p.y += p.yVel
+			
+			if(p.opacity < 0) return
+			if(p.radius < 0) return
+			
+			ctx.beginPath()
+			ctx.globalAlpha = p.opacity
+			ctx.fillStyle = p.color
+			ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, false)
+			ctx.fill()
+		})
+	}
+	
+	(function renderLoop(){
+		requestAnimationFrame(renderLoop)
+		render()
+	})()
+	
+	setTimeout(function() {
+		document.body.removeChild(c)
+	}, 3000)
+}
+
+let angleTools={getAngle:function(t,n){let a=n.x-t.x,e=n.y-t.y;return Math.atan2(e,a)/Math.PI*180},getDistance:function(t,n){let a=t.x-n.x,e=t.y-n.y;return Math.sqrt(a*a+e*e)},moveOnAngle:function(t,n){let a=this.getOneFrameDistance(t,n);t.x+=a.x,t.y+=a.y},getOneFrameDistance:function(t,n){return{x:n*Math.cos(t.rotation*Math.PI/180),y:n*Math.sin(t.rotation*Math.PI/180)}}};
+function r(a,b,c){ return parseFloat((Math.random()*((a?a:1)-(b?b:0))+(b?b:0)).toFixed(c?c:0)); }
+
+//end of explosion/splash code
+
 const runTwitter = function(){
     window.twttr = (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0],
+        let js, fjs = d.getElementsByTagName(s)[0],
           t = window.twttr || {};
         if (d.getElementById(id)) return t;
         js = d.createElement(s);
@@ -473,7 +565,7 @@ const runTwitter = function(){
 
 const runFacebook = function(){
     (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
+        let js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
         js = d.createElement(s); js.id = id;
         js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
