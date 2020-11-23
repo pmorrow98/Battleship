@@ -1,32 +1,103 @@
+body {
+    font-family: 'Courier', Courier, monospace;
+    background-color: lightblue;
+}
+h1 {
+    text-align: center;
+    font-size: 50px;
+    margin: 30px;
+    font-weight: normal;
+}
 h3{
  display:inline-block;
  width: 130px;
 }
 .sortedBy{
     font-weight: bold;
-    color:blue;
+    border: 1px dotted red;
 }
-.navbar{
-    display: inline-block;
-    width: 45%;
-    height: 25px;
-    text-align: center;
-    background-color: darkgrey;
-    font-size: large;
+nav {
+    list-style:none;
+    margin-left: -200px;
+    margin-right: -200px;
+    text-align:center;
+    
 }
-.navbar > a{
+nav li{
+    display:inline;
+    margin: -10px
+}
+nav a, a:visited{
+    display:inline-block;
     text-decoration: none;
-    color: black;
-}
-.logout{
-    display: inline-block;
-    width: 8%;
-    height: 25px;
+    background-color: #34495E;
+    color: white;
+    padding: 5px 12%;
     text-align: center;
-    background-color: darkgrey;
-    font-size: large;
+}
+nav a:hover {
+    background-color: #3498DB;
 }
 table {
+    table-layout: fixed;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 50px;
+    margin-bottom: 90px;
+    border-collapse: collapse;
+    background-color: #f5f5f5;
+    width: 70%;
+    display: table;
+    /* https://www.sitepoint.com/pure-css3-paper-curls/  for paper styling */ 
+    -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+}
+td {
+    font-size: 20px;
+    font-weight: 100;
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+    padding: 0px;
+    border: 2px solid;
+    border: 2pt lightblue; 
+  }
+tbody tr {
+    border-bottom: 1px dotted #ccc;
+    height: auto;
+    padding: 0px;
+    text-indent: 25px;
+}
+.username, #username {
+    text-align: right;
+    border-left: 1px solid #ffaa9f;
+    border-right: 1px solid #ffaa9f;
+    width: 2px;
+    float: left;
+    height: 30px;
+    margin-left: 40px;
+}
+#username {
+    height: 60px;
+}
+thead tr {
+    border-bottom: 1px dotted #ccc;
+    text-indent: 25px;
+}
+thead th {
+    font-weight: lighter;
+    text-align: center;
+    margin: 0 auto;
+    width: 15%;
+    vertical-align: middle;
+}
+
+.red {
+    color: red;
+    text-transform: uppercase;
+}
+/*table {
     border: outset 5pt blue;
     border-collapse: separate;
     border-spacing: 15pt;
