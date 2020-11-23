@@ -204,9 +204,8 @@ const handleLogout = async function(){
     const result = await axios({
         method: 'get',
         url: 'https://battleshipcomp426.herokuapp.com/api/logout',
-        //withCredentials: true,
+        withCredentials: true,
       });
-    console.log(result);
     window.location.replace("./index.html");
 }
 
@@ -214,7 +213,7 @@ const getUsernames = async function(){
     const result = await axios({
         method: 'get',
         url: 'https://battleshipcomp426.herokuapp.com/api/user',
-        //withCredentials: true,
+        withCredentials: true,
     });
     result.data.forEach((user) => usernames.push(user.username));
 }
