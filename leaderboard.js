@@ -1,10 +1,17 @@
 let usernames = [];
+let stats;
 
 const makePage = function(){
 
     let theBoard = document.createElement('table');
     theBoard.className = 'board';
     theBoard.id = 'board';
+
+    let theSearch = document.getElementById('searcharea');
+    theSearch.addEventListener('submit', (e)=>{handleSearchSubmit(e)});
+
+    let theClear = document.getElementById('clearbutton');
+    theClear.addEventListener('click', (e)=>{handleClearButton(e)});
 
     let theLabels = document.createElement('tr');
     theLabels.id = 'topLabels';
@@ -54,11 +61,16 @@ const makePage = function(){
 
 };
 
-async function getStats(filter){
-    let theUsers = await axios({
+async function getStats(){
+    let result = await axios({
         method: 'get',
         url: 'https://battleshipcomp426.herokuapp.com/api/user',
     });
+    stats = result.data;
+    renderStats("wins");
+}
+
+function renderStats(filter){
     let theBoard = document.getElementById('board');
     if(filter=="wins"){
         let holdeles = document.getElementsByClassName("sortCat");
@@ -66,7 +78,7 @@ async function getStats(filter){
             element.className = "sortCat";
         });
         document.getElementById("numwins").className = "sortCat sortedBy";
-        theUsers.data.sort((a,b)=>b.wins-a.wins).forEach(element => {
+        stats.sort((a,b)=>b.wins-a.wins).forEach(element => {
             theBoard.appendChild(leaderboardLayout(element));
         });
     }
@@ -76,7 +88,7 @@ async function getStats(filter){
             element.className = "sortCat";
         });
         document.getElementById("numgames").className = "sortCat sortedBy";
-        theUsers.data.sort((a,b)=>b.gamesPlayed-a.gamesPlayed).forEach(element => {
+        stats.sort((a,b)=>b.gamesPlayed-a.gamesPlayed).forEach(element => {
             theBoard.appendChild(leaderboardLayout(element));
         });
     }
@@ -86,7 +98,7 @@ async function getStats(filter){
             element.className = "sortCat";
         });
         document.getElementById("numloses").className = "sortCat sortedBy";
-        theUsers.data.sort((a,b)=>b.losses-a.losses).forEach(element => {
+        stats.sort((a,b)=>b.losses-a.losses).forEach(element => {
             theBoard.appendChild(leaderboardLayout(element));
         });
     }
@@ -97,11 +109,10 @@ async function getStats(filter){
             element.className = "sortCat";
         });
         document.getElementById("numshipssunk").className = "sortCat sortedBy";
-        theUsers.data.sort((a,b)=>b.shipsSunk-a.shipsSunk).forEach(element => {
+        stats.sort((a,b)=>b.shipsSunk-a.shipsSunk).forEach(element => {
             theBoard.appendChild(leaderboardLayout(element));
      });
     }
-
 };
 
 function leaderboardLayout(user){
@@ -138,6 +149,10 @@ function leaderboardLayout(user){
     return theLine;
 };
 
+function handleClearButton(press){
+    press.preventDefault();
+    refreshFeed("wins");
+};
 
 function refreshFeed(filter){
     let tableChildren = document.getElementById('board').childNodes;
@@ -145,9 +160,22 @@ function refreshFeed(filter){
         if(element.id!="topLabels"){
             element.remove();
         }
-    })
-    getStats(filter);
-}
+    });
+    renderStats(filter);
+};
+
+function handleSearchSubmit(event){
+    event.preventDefault();
+    refreshFeed("wins");
+    if(event.target[0].value != ""){
+        let tableChildren = document.getElementById('board').childNodes;
+        Array.from(tableChildren).forEach(row =>{
+            if(row.id!="topLabels" && row.firstChild.innerText != event.target[0].value){
+                row.remove();
+            }
+        })
+    }
+};
 
 function handleInput(event){
     if(document.getElementById("autocompletearea") != null){
@@ -192,10 +220,10 @@ const getUsernames = async function(){
 }
 
 window.onload = ()=>{
-    getStats("wins");
+    makePage();
+    getStats();
     getUsernames();
     document.getElementById("logout").addEventListener("click" , handleLogout);
     document.getElementById("searchbox").addEventListener("input", (e) => handleInput(e));
-    makePage();
 };
 
