@@ -174,3 +174,7 @@ nav a:hover {
     border-radius: 2px;
 }
 
+.twitter-share-button, .fb-share-button{
+    vertical-align: top;
+}
+
