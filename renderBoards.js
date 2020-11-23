@@ -388,6 +388,17 @@ const updateResult = function(loser){
     button_div.appendChild(leaderboard_button);
     result_div.appendChild(result_message);
     result_div.appendChild(button_div);
+    if(loser == "Computer"){
+        let share_div = document.createElement('div');
+        let twitter_message = document.createElement('h3');
+        twitter_message.innerText = "Share your success on Social Media!";
+        share_div.appendChild(twitter_message);
+        share_div.innerHTML += '<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-text="I just beat a Computer in Battleship! Check out the game at https://pmorrow98.github.io/Battleship/" data-show-count="false">Tweet</a>'//<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
+        share_div.innerHTML += '<div class="fb-share-button" data-href="https://pmorrow98.github.io/Battleship/" data-layout="button" data-size = "large">';
+        result_div.appendChild(share_div);
+        runTwitter();
+        runFacebook();
+    }
     gameinprogress = false;
     updateUserInfo();
 }
@@ -438,13 +449,44 @@ const handleLogout = async function(){
         url: 'https://battleshipcomp426.herokuapp.com/api/logout',
         withCredentials: true,
       });
+      document.cookie = "";
+}
+
+const runTwitter = function(){
+    window.twttr = (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0],
+          t = window.twttr || {};
+        if (d.getElementById(id)) return t;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://platform.twitter.com/widgets.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      
+        t._e = [];
+        t.ready = function(f) {
+          t._e.push(f);
+        };
+      
+        return t;
+      }(document, "script", "twitter-wjs"));
+}
+
+const runFacebook = function(){
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+        fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
 }
 
 window.onload = () => {
-    username = window.location.hash.substring(1);
+    username = document.cookie;
     document.getElementById("logout").addEventListener("click" , handleLogout)
     renderButtons();
     renderInitialBoards();
     gameinprogress = false;
     getUserInfo();
+    //updateResult("Computer");
 };
