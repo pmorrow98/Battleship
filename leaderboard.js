@@ -7,12 +7,7 @@ const makePage = function(){
     theBoard.className = 'table';
     theBoard.id = 'table';
 
-    /*let lines = document.createElement('div');
-    lines.className = 'lines';
-    theBoard.appendChild(lines);
-    */
-
-    body = document.createElement('tbody');
+    let body = document.createElement('tbody');
     body.className = 'board';
     body.id = 'board';
 
@@ -165,6 +160,7 @@ function leaderboardLayout(user){
 
 function handleClearButton(press){
     press.preventDefault();
+    document.getElementById("searchbox").value = "";
     refreshFeed("wins");
 };
 
@@ -179,12 +175,15 @@ function refreshFeed(filter){
 };
 
 function handleSearchSubmit(event){
-    event.preventDefault();
+    if(event != null){
+        event.preventDefault();
+    }
     refreshFeed("wins");
-    if(event.target[0].value != ""){
+    let searchbox = document.getElementById("searchbox");
+    if(searchbox.value != ""){
         let tableChildren = document.getElementById('board').childNodes;
         Array.from(tableChildren).forEach(row =>{
-            if(row.id!="topLabels" && row.firstChild.innerText != event.target[0].value){
+            if(row.id!="topLabels" && row.firstChild.innerText.toUpperCase() != searchbox.value.toUpperCase()){
                 row.remove();
             }
         })
@@ -206,7 +205,9 @@ function handleInput(event){
                 option.innerText = username;
                 autocomplete_div.appendChild(option);
                 option.addEventListener("click", (e) => {
-                    document.getElementById("searchbox").value = e.target.innerText;
+                    let searchbox = document.getElementById("searchbox");
+                    searchbox.value = e.target.innerText;
+                    handleSearchSubmit();
                     autocomplete_div.remove();
                 });
             }

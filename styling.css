@@ -97,19 +97,14 @@ thead th {
     color: red;
     text-transform: uppercase;
 }
-/*table {
-    border: outset 5pt blue;
-    border-collapse: separate;
-    border-spacing: 15pt;
-    }
-    td {
-        width: 70px;
-        height: 70px;
-        font-size: 20px;
-        font-weight: bold;
-        text-align: center;
-        vertical-align: middle;
-        position: relative;
-        border: 2px solid;
-        border: outset 4pt red; 
-      }
+
+#autocompletearea > div{
+    background-color: whitesmoke;
+    width: 168px;
+    position: absolute;
+    z-index: 99;
+}
+
+#autocompletearea > div:hover{
+    background-color: #ccc;
+}
