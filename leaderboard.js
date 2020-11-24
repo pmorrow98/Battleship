@@ -222,8 +222,6 @@ const handleLogout = async function(){
         withCredentials: true,
     });
     document.cookie = "";
-    console.log(result);
-    //window.location.replace("./");
 }
 
 const getUsernames = async function(){

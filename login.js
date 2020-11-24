@@ -35,6 +35,10 @@ const renderLogin = function(){
 
     let incorrect_area = document.createElement('p');
     incorrect_area.id = "incorrect_area";
+    incorrect_area.className = 'loginerror';
+
+    let createduser_area = document.createElement('p');
+    createduser_area.id = "createduser_area";
 
     let createuser_button = document.createElement("button");
     createuser_button.innerText = "Create an Account";
@@ -50,6 +54,7 @@ const renderLogin = function(){
     form.appendChild(passwordtag);
     form.appendChild(document.createElement("br"));
     form.appendChild(incorrect_area);
+    form.appendChild(createduser_area);
     form.appendChild(submit_button);
 
     form.addEventListener("submit", (e) => handleLoginSubmit(e));
@@ -62,6 +67,7 @@ const handleLoginSubmit = async function(event){
     event.preventDefault();
     let incorrect_message = document.getElementById("incorrect_area");
     incorrect_message.innerText = "";
+    document.getElementById("createduser_area").innerText = "";
     let submit_username = event.target[0].value;
     let submit_password = event.target[1].value;
     try{
@@ -188,6 +194,7 @@ const handleCreateUserSubmit = async function(event){
             });
             if(result.data){
                 renderLogin();
+                document.getElementById("createduser_area").innerText = "User Sucessfully Created Login Now";
             }
         }
     }

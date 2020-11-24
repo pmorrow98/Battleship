@@ -35,6 +35,9 @@ button {
 .loginerror {
     color: red
 }
+#createduser_area{
+    color: green;
+}
 .forminput {
     margin: -15px;
 }

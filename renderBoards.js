@@ -461,7 +461,6 @@ const handleLogout = async function(){
         withCredentials: true,
     });
     document.cookie = "";
-    //window.location.replace("./");
 }
 
 //explode/splash code adapted from codepen by Nick Sheffield https://codepen.io/nicksheffield/pen/NNEoLg/
