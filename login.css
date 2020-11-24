@@ -30,6 +30,7 @@ button {
     text-align: center;
     font-size: 14px;
     font-family: 'Courier';
+    border-radius: 10%;
 }
 .loginerror {
     color: red

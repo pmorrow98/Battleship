@@ -2,7 +2,7 @@ import Board from './board.js'
 import Computer from './computer.js'
 
 const shiplengths = [5,4,3,3,2];
-const shipnames = ["Carrier", "Battleship", "Destroyer", "Submarine", "Patrol Boat"];
+const shipnames = ["Carrier", "Battleship", "Destroyer", "Submarine", "Patrol Boat", ""];
 let current_ship = 0;
 let myBoard, computerBoard;
 let computer;
@@ -38,9 +38,13 @@ const renderInitialBoards = function(){
 }
 
 const renderButtons = function(){
-    let current_ship_label = document.createElement('h2');
+
+    let section_label = document.createElement('h2');
+    section_label.innerText = "Place Ships on Your Board to Begin";
+
+    let current_ship_label = document.createElement('p');
     current_ship_label.id = "current_ship";
-    current_ship_label.innerText = "Currently Placing: " + shipnames[current_ship];
+    current_ship_label.innerHTML = `Currently Placing: <strong>${shipnames[current_ship]}</strong>`;
 
     let orientation_question = document.createElement('p');
     orientation_question.innerText = "What orientation would you like this ship to be?"
@@ -64,6 +68,7 @@ const renderButtons = function(){
 
     let control_div = document.getElementById("control-area");
 
+    control_div.appendChild(section_label);
     control_div.appendChild(current_ship_label);
     control_div.appendChild(orientation_question);
     control_div.appendChild(horizontal_option);
@@ -130,12 +135,12 @@ const handlePlaceClick = function(){
     let current_temps = document.getElementsByClassName("temp-ship-cell");
     let temp_length = current_temps.length;
     if(temp_length != 0){
-        document.getElementById("current_ship").innerText = "Currently Placing: " + shipnames[current_ship];
         for(let i = 0; i < temp_length; i++){
             current_temps[0].data_shiptype = current_ship + 1;
             current_temps[0].className = "perm-ship-cell";
         }
         current_ship += 1;
+        document.getElementById("current_ship").innerText = "Currently Placing: " + shipnames[current_ship];
         if(current_ship == 5){
             submitBoard();
         }
@@ -574,5 +579,4 @@ window.onload = () => {
     renderInitialBoards();
     gameinprogress = false;
     getUserInfo();
-    //updateResult("Computer");
 };
