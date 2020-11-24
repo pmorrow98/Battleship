@@ -46,7 +46,6 @@ table {
     margin-bottom: 90px;
     border-collapse: collapse;
     background-color: #f5f5f5;
-    width: 70%;
     display: table;
     /* https://www.sitepoint.com/pure-css3-paper-curls/  for paper styling */ 
     -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
@@ -66,21 +65,21 @@ td {
 tbody tr {
     border-bottom: 1px dotted #ccc;
     height: auto;
+    width: auto;
     padding: 0px;
     text-indent: 25px;
 }
-.username, #username {
+.username{
     text-align: right;
     border-left: 1px solid #ffaa9f;
     border-right: 1px solid #ffaa9f;
-    width: 2px;
     float: left;
-    height: 30px;
     margin-left: 40px;
 }
-#username {
-    height: 60px;
+.theTopRow{
+    height: 50px;
 }
+
 thead tr {
     border-bottom: 1px dotted #ccc;
     text-indent: 25px;
