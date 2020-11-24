@@ -71,9 +71,9 @@ tbody tr {
 }
 .username{
     text-align: right;
-    border-left: 1px solid #ffaa9f;
+   /* border-left: 1px solid #ffaa9f; */
     float: left;
-    margin-left: 40px;
+    margin-left: 20px;
     white-space: nowrap;
 }
 .theTopRow{
