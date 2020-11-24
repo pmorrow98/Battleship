@@ -72,7 +72,6 @@ tbody tr {
 .username{
     text-align: right;
     border-left: 1px solid #ffaa9f;
-    border-right: 1px solid #ffaa9f;
     float: left;
     margin-left: 40px;
     white-space: nowrap;
