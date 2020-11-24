@@ -459,8 +459,9 @@ const handleLogout = async function(){
         method: 'get',
         url: 'https://battleshipcomp426.herokuapp.com/api/logout',
         withCredentials: true,
-      });
-      document.cookie = "";
+    });
+    document.cookie = "";
+    window.location.replace("./index.html");
 }
 
 //explode/splash code adapted from codepen by Nick Sheffield https://codepen.io/nicksheffield/pen/NNEoLg/

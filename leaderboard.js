@@ -220,7 +220,8 @@ const handleLogout = async function(){
         method: 'get',
         url: 'https://battleshipcomp426.herokuapp.com/api/logout',
         withCredentials: true,
-      });
+    });
+    document.cookie = ""
     window.location.replace("./index.html");
 }
 
