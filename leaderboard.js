@@ -221,8 +221,9 @@ const handleLogout = async function(){
         url: 'https://battleshipcomp426.herokuapp.com/api/logout',
         withCredentials: true,
     });
-    document.cookie = ""
-    window.location.replace("./");
+    document.cookie = "";
+    console.log(result);
+    //window.location.replace("./");
 }
 
 const getUsernames = async function(){
