@@ -19,6 +19,7 @@ const makePage = function(){
 
     let header = document.createElement('thead');
     let theLabels = document.createElement('tr');
+    theLabels.className = 'theTopRow'
     header.appendChild(theLabels)
 
     theBoard.appendChild(header);
