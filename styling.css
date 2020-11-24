@@ -77,6 +77,7 @@ tbody tr {
     float: left;
     height: 30px;
     margin-left: 40px;
+    white-space: nowrap;
 }
 #username {
     height: 60px;
@@ -98,11 +99,22 @@ thead th {
     text-transform: uppercase;
 }
 
-#autocompletearea > div{
+#searcharea{
+    position: relative;
+}
+
+#autocompletearea{
     background-color: whitesmoke;
     width: 168px;
     position: absolute;
     z-index: 99;
+    top: 100%;
+    left: 0;
+    right: 0;
+}
+
+#autocompletearea > div{
+    cursor: pointer;
 }
 
 #autocompletearea > div:hover{

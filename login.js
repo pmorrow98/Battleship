@@ -2,6 +2,7 @@ let usernames = [];
 let usernameavailable = false;
 
 const renderLogin = function(){
+    document.getElementById("subtitle").innerText = "Log in Below";
     let area_div = document.getElementById("loginarea");
     area_div.innerHTML = "";
     let form = document.createElement("form");
@@ -96,6 +97,7 @@ const handleLoginSubmit = async function(event){
 }
 
 const renderCreateUser = function(){
+    document.getElementById("subtitle").innerText = "Create User Below";
     let area_div = document.getElementById("loginarea");
     area_div.innerHTML = "";
     let form = document.createElement("form");
