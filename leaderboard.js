@@ -222,7 +222,7 @@ const handleLogout = async function(){
         withCredentials: true,
     });
     document.cookie = ""
-    window.location.replace("./index.html");
+    window.location.replace("./");
 }
 
 const getUsernames = async function(){
